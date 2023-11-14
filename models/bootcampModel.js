@@ -12,7 +12,7 @@ const bootcampSchema = new mongoose.Schema({
     phone:{
         type: Number,
         required : [true, "Oe El Bootcamp Ya Existe, Osea Esta Repetido😒"],
-        maxlength : [10, "Oe Ojo Con El Limite Del Telefono, El Limite Es De 10 Caracteres >:v"]
+        max : [999999999, "Oe Ojo Con El Limite Del Telefono, El Limite Es De 10 Caracteres >:v"]
     },
     address: {
         type: String,
