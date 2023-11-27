@@ -166,7 +166,7 @@ router.delete('/:id', async(req,resp)=>{
             //! Desestructurar :3
             const {email, password}= req.body
             //* Buscar Usuario Con Ese Email
-            const user= await usersModel.findOne({email})
+            const user= await usersModel.findOne({email}).select("+password")
             if(!user){
                 resp.status(404).json({
                     success:false,
@@ -174,7 +174,18 @@ router.delete('/:id', async(req,resp)=>{
                 })
 
             }else{
-
+                const isMatch = await user.compararPassword(password)
+                if(isMatch){
+                    resp.status(200).json({
+                        success: true,
+                        msg: "Usuario Logeado Correctamente"
+                    })
+                }else{
+                    resp.status(401).json({
+                        success: false,
+                        msg: "Credenciales Invalidas"
+                    })
+                }
             }
         } catch (error) {
             resp.status(500).json({

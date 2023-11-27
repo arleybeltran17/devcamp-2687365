@@ -41,8 +41,9 @@ usersSchema.pre('save', async function(next){
     this.password = await bcryptjs.hash(this.password, sal)
 })
 
-usersSchema.methods.compararPassword = function (){
-    
+usersSchema.methods.compararPassword = async function (password){
+    return await bcryptjs.compare(password, this.password)
+
 }
 
 const Users = mongoose.model("Users", usersSchema)
