@@ -3,8 +3,6 @@ const bootcampModel = require('../models/bootcampModel')
 const router = express.Router()
 const mongoose = require("mongoose")
 
-
-
 //? Uri Del Proyecto
 router.get('/', async (req,resp)=>{
     //todo Consultar Bootcamps
@@ -151,7 +149,4 @@ router.delete('/:id', async(req,resp)=>{
     }
         
     })
-
-
-
 module.exports = router
