@@ -1,7 +1,8 @@
 const express = require('express');
 const usersModel = require('../models/usersModel')
 const router = express.Router()
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { post } = require('./bootcampsRoutes');
 
 //? Uri Cursos Del Proyecto
 
@@ -142,6 +143,45 @@ router.delete('/:id', async(req,resp)=>{
             msg: `Error Interno De Servidor ${error.message}`
         })
     }
+    })
+
+    router.post("/register", async(req,resp)=>{
+        try {
+            const user = await usersModel.create(req.body)
+            resp.status(201).json({
+                success: true,
+                data: user
+            })
+        } catch (error) {
+            resp.status(500).json({
+                success: false,
+                error: error.message
+            })
+        }
+        
+    })
+
+    router.post("/login", async(req,resp)=>{
+        try {
+            //! Desestructurar :3
+            const {email, password}= req.body
+            //* Buscar Usuario Con Ese Email
+            const user= await usersModel.findOne({email})
+            if(!user){
+                resp.status(404).json({
+                    success:false,
+                    message: 'User Not Found'
+                })
+
+            }else{
+
+            }
+        } catch (error) {
+            resp.status(500).json({
+                success: false,
+                msg:error.message
+            })
+        }
     })
 
 module.exports = router

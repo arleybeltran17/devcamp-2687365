@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcryptjs = require('bcryptjs')
 
 //? Definir Un Modelo Solo Para Mongo
 
@@ -29,6 +30,15 @@ const usersSchema = new mongoose.Schema({
         required : [true, "Oe Se Necesita Un Rol😒"],
         maxlength : [20, "Oe Ojo Con El Limite Del Rol De Usuario, El Limite Es De 20 Caracteres >:v"]
     }
+})
+
+usersSchema.pre('save', async function(next){
+    //! Generar La Sal Para El Password
+
+    const sal = await bcryptjs.genSalt(3)
+
+    //? Crear La Clave Encriptada Con La Sal Para Asignarla  A Un Password De La Entidad
+    this.password = await bcryptjs.hash(this.password, sal)
 })
 
 const Users = mongoose.model("Users", usersSchema)
